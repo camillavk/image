@@ -49,7 +49,17 @@ describe ImagesController do
 
     it 'returns the image url' do
       subject
-      expect(JSON.parse((response.body))['file'].present?).to eq true
+      expect(JSON.parse((response.body))['file']).to include image_name
+    end
+
+    context 'retrieving image with different extension' do
+      let(:params) { { image_name: image_name_png } }
+      let(:image_name_png) { 'test-image.png' }
+
+      it 'returns the png url version of the image' do
+        subject
+        expect(JSON.parse((response.body))['file']).to include image_name_png
+      end
     end
   end
 end

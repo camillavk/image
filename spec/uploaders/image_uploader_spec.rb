@@ -5,6 +5,7 @@ describe ImageUploader do
 
   let(:subject) { described_class.new }
   let(:image_name) { 'test-image.jpg' }
+  let(:path_to_file) { "./spec/fixtures/images/#{image_name}" }
 
   before do
     described_class.enable_processing = true
@@ -17,8 +18,6 @@ describe ImageUploader do
   end
 
   context 'with correct image file' do
-    let(:path_to_file) { "./spec/fixtures/images/#{image_name}" }
-
     it 'saves the image with the correct format' do
       expect(subject).to be_format 'jpeg'
     end
@@ -29,6 +28,12 @@ describe ImageUploader do
 
     it 'saves the image with the original name included in the unique identifier' do
       expect(subject.identifier).to include(image_name)
+    end
+  end
+
+  context 'converting to other extensions' do
+    it 'saves the image with png version' do
+      expect(subject.png).to be_format 'png'
     end
   end
 end
